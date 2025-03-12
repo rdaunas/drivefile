@@ -20,3 +20,6 @@ export const folders = singlestoreTable("folder_table", {
 (t) => {
   return [index("parent_index").on(t.parent)]
 });
+
+export type DB_FileType = typeof files.$inferSelect;
+export type DB_FolderType = typeof folders.$inferSelect;
