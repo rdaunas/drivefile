@@ -1,6 +1,7 @@
 import { Folder, File } from "~/lib/mock-data"
 import { Folder as FolderIcon, FileIcon, Upload, ChevronRight } from "lucide-react"
 import Link from "next/link"
+import type { files, folders} from "~/server/db/schema"
 
 
 export function FileRow (props: {file: File}) {

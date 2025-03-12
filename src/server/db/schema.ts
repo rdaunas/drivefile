@@ -1,3 +1,4 @@
+import "server-only"
 import { int, text, singlestoreTable, index, bigint } from "drizzle-orm/singlestore-core";
 
 export const files = singlestoreTable("file_table", {
