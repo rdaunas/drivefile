@@ -1,6 +1,6 @@
 import "server-only";
 import { db } from ".";
-import { files_table , folders_table} from "~/server/db/schema";
+import { files_table , folders_table, DB_FileType} from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 
 
@@ -30,6 +30,23 @@ getAllParents: async function ( folderId: number){
 },
 }
 
+export const MUTATIONS = {
+    createFile : async function (input : {
+        file : {
+            name: string,
+            url: string,
+            parent: number,
+            size: number
+        },
+        userId: string;
+    }) {
+
+        if(!input.userId) {
+            throw new Error("Unauthorized")
+        }
+        return await db.insert(files_table).values({...input.file, parent: 1});
+    }
+}
 
 
 
