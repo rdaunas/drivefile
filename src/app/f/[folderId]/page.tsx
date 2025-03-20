@@ -7,6 +7,7 @@ export default async function GoogleDriveClone( props: {params: Promise<{folderI
   const params = await props.params;
 
   const parsedFolderId = parseInt(params.folderId);
+  console.log(parsedFolderId)
 
   if(isNaN(parsedFolderId)){
     return <div>Invalid folder Id</div>
@@ -19,6 +20,6 @@ export default async function GoogleDriveClone( props: {params: Promise<{folderI
   ]);
 
   return(
-    <DriveContent files={files} folders={folders} parents={parents}/>
+    <DriveContent files={files} folders={folders} parents={parents} currentFolderId={parsedFolderId}/>
   )
 }

@@ -11,7 +11,10 @@ getFiles :async function (folderId : number) {
 },
 getFolders: async function (folderId : number) {
     return  await db.select().from(folders_table).where(eq(folders_table.parent, folderId));
-
+},
+getFoldersById: async function (folderId: number) {
+    const folder = await db.select().from(folders_table).where(eq(folders_table.id,folderId));
+    return folder[0]
 },
 getAllParents: async function ( folderId: number){
     const parents= [];
@@ -44,7 +47,7 @@ export const MUTATIONS = {
         if(!input.userId) {
             throw new Error("Unauthorized")
         }
-        return await db.insert(files_table).values({...input.file, parent: 1});
+        return await db.insert(files_table).values({...input.file, ownerId: input.userId});
     }
 }
 

@@ -1,30 +1,51 @@
-import { mockFiles, mockFolders } from "~/lib/mock-data"
-import { db } from "~/server/db"
+import { auth } from "@clerk/nextjs/server";
+import { eq } from "drizzle-orm";
+import { mockFiles, mockFolders } from "~/lib/mock-data";
+import { db } from "~/server/db";
 import { files_table, folders_table } from "~/server/db/schema";
 
+export default async function Sandbox() {
+  const user = await auth();
+  if (!user.userId) {
+    throw new Error("User not found");
+  }
 
-export default function SandboxPage() {
-    return(
-        <div className="flex flex-col gap'">
-            Seed function
-            <form action={ async () => {
-                "use server";
-                await db.insert(folders_table).values(mockFolders.map( (folder,index) => ({
-                    id: index +1,
-                    name: folder.name,
-                    parent: index !== 0 ? 1 : null,
-                })));
-                await db.insert(files_table).values(mockFiles.map( (file, index) => ({
-                    id: index +1,
-                    name: file.name,
-                    parent: (index % 3) +1,
-                    url: file.url,
-                    size: 5000,
-                })));
-            }}>
-            <button type="submit">Seed</button>
-            </form>
+  const folders = await db
+    .select()
+    .from(folders_table)
+    .where(eq(folders_table.ownerId, user.userId));
 
-        </div>
-    )
+  console.log(folders);
+
+  return (
+    <div>
+      <form
+        action={async () => {
+          "use server";
+          const user = await auth();
+          if (!user.userId) {
+            throw new Error("User not found");
+          }
+
+          const rootFolder = await db
+            .insert(folders_table)
+            .values({
+              name: "root",
+              ownerId: user.userId,
+              parent: null,
+            })
+            .$returningId();
+
+          const insertableFolders = mockFolders.map((folder) => ({
+            name: folder.name,
+            ownerId: user.userId,
+            parent: rootFolder[0]!.id,
+          }));
+          await db.insert(folders_table).values(insertableFolders);
+        }}
+      >
+        <button type="submit">Create file</button>
+      </form>
+    </div>
+  );
 }
