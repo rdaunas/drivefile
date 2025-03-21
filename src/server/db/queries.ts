@@ -6,11 +6,11 @@ import { eq } from "drizzle-orm";
 
 export const QUERIES = {
 getFiles :async function (folderId : number) {
-    return await db.select().from(files_table).where(eq(files_table.parent, folderId));
+    return await db.select().from(files_table).where(eq(files_table.parent, folderId)).orderBy(files_table.id);
 
 },
 getFolders: async function (folderId : number) {
-    return  await db.select().from(folders_table).where(eq(folders_table.parent, folderId));
+    return  await db.select().from(folders_table).where(eq(folders_table.parent, folderId)).orderBy(folders_table.id);
 },
 getFoldersById: async function (folderId: number) {
     const folder = await db.select().from(folders_table).where(eq(folders_table.id,folderId));
