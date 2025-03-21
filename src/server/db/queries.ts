@@ -1,7 +1,7 @@
 import "server-only";
 import { db } from ".";
 import { files_table , folders_table, DB_FileType} from "~/server/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, isNull, and } from "drizzle-orm";
 
 
 export const QUERIES = {
@@ -31,6 +31,17 @@ getAllParents: async function ( folderId: number){
     }
     return parents;
 },
+getRootFolderForUser : async function (userId: string) {
+    const folder = await db.select()
+        .from(folders_table)
+        .where(
+            and(
+                eq(folders_table.ownerId, userId),
+                isNull(folders_table.parent)
+            )
+        )
+    return folder[0];
+}
 }
 
 export const MUTATIONS = {
@@ -48,6 +59,36 @@ export const MUTATIONS = {
             throw new Error("Unauthorized")
         }
         return await db.insert(files_table).values({...input.file, ownerId: input.userId});
+    },
+
+    onboardUser: async function(userId: string) {
+        const rootFolder = await db.insert(folders_table).values({
+           ownerId: userId,
+           name: "Root",
+           parent : null,            
+        }).$returningId();
+
+        const rootFolderId = rootFolder[0]!.id;
+
+        await db.insert(folders_table).values([
+        {
+            name: "Image",
+            parent: rootFolderId,
+            ownerId: userId,
+        },
+        {
+            name: "Work",
+            parent: rootFolderId,
+            ownerId: userId,
+        },
+        {
+            name: "Documents",
+            parent: rootFolderId,
+            ownerId: userId,
+        },
+        ]);
+
+        return rootFolderId;
     }
 }
 
