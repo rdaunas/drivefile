@@ -3,8 +3,8 @@
 ## Homework
 
 -[] Study next routing
--[] Study use client/ server
--[] Study page / layout fiels logic
+-[] Study use client / server
+-[X] Study page / layout logic
 
 ## Upgrade
 

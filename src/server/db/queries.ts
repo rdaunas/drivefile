@@ -39,7 +39,7 @@ getRootFolderForUser : async function (userId: string) {
                 eq(folders_table.ownerId, userId),
                 isNull(folders_table.parent)
             )
-        )
+        );
     return folder[0];
 }
 }
