@@ -2,7 +2,7 @@
 import { Folder as FolderIcon, FileIcon, Upload, ChevronRight, Trash2Icon } from "lucide-react"
 import Link from "next/link"
 import { Button } from "~/components/ui/button";
-import { deleteFile } from "~/server/actions";
+import { deleteFile, deleteFolder } from "~/server/actions";
 import  { DB_FileType, DB_FolderType} from "~/server/db/schema"
 
 
@@ -47,7 +47,11 @@ export function FolderRow (props: {folder: DB_FolderType}) {
               </Link>
           </div>
           <div className="col-span-2 text-gray-400">{"folder"}</div>
-          <div className="col-span-3 text-gray-400"></div>
+          <div className="col-span-3 text-gray-400">
+          <Button variant="ghost" onClick={() => deleteFolder(folder.id)}>
+              <Trash2Icon className="mr-3" size={20} aria-label="delete"></Trash2Icon>
+            </Button>
+          </div>
         </div>
       </li>
     )

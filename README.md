@@ -8,7 +8,7 @@
 
 ## Upgrade
 
--[] Add Folder deletion
+-[X] Add Folder deletion
 -[] Add Folder creation
 -[] Add access control
 -[] Add small popup on upload
