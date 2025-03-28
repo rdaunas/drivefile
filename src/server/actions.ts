@@ -11,6 +11,23 @@ import { number } from "zod";
 const utapi = new UTApi();
 // use server make endpoint for the front NEEDS to be treated safely
 
+export async function createFolder(currentFolderId : number, newFolderName : string) {
+
+    const session = await auth();
+    if(!session){
+        return {error: "unauthorized"}
+    }
+
+    const newFolder = await db.insert(folders_table).values({
+        ownerId: session.userId || "",
+        name: newFolderName,
+        parent: currentFolderId
+    })//.returning({ insertedId: folders_table.id });
+
+    const c = await cookies();
+    c.set("force-refresh",JSON.stringify(Math.random()))
+}
+
 export async function deleteFile(fileId : number) {
     const session = await auth();
     if(!session.userId){

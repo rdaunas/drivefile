@@ -1,13 +1,15 @@
 "use client"
 
-import { Folder, FileIcon, Upload, ChevronRight } from "lucide-react"
-import Link from "next/link"
+import { ChevronRight, Plus } from "lucide-react"
 import { Button } from "~/components/ui/button"
+import Link from "next/link"
 import { FileRow, FolderRow } from "./file-row"
 import { files_table, folders_table } from "~/server/db/schema"
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs"
 import { UploadButton } from "../../../components/uploadthing"
 import { useRouter } from "next/navigation"
+import { createFolder } from "~/server/actions"
+import { useState } from "react"
 
 export default function DriveContent(props : {
   files: (typeof files_table.$inferSelect)[];
@@ -16,6 +18,7 @@ export default function DriveContent(props : {
   currentFolderId: number;
 }) {
 
+  const[newFolderName, setNewFolderName] = useState("");
   const navigate = useRouter();
 
 
@@ -71,6 +74,10 @@ export default function DriveContent(props : {
           </ul>
         </div>
         <UploadButton endpoint="driveUploader" onClientUploadComplete={() => {navigate.refresh()}} input={{folderId: props.currentFolderId}} />
+        <input type="text" name="newFolderName" id="newFolderName" onChange={(e)=>{e.preventDefault();setNewFolderName(e.target.value);} }/>
+        <Button onClick={()=>createFolder(props.currentFolderId, newFolderName)}>
+          <Plus />
+        </Button>
       </div>
     </div>
   )
