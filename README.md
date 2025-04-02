@@ -1,15 +1,9 @@
 # Drivefile
 
-## Homework
-
--[X] Study next routing -> pages folder with 1 file per page VS app folder with folder per route including nesting
--[] Study use client / server
--[X] Study page / layout logic -> page file = specific page content, layout wrap some ui on pages
-
 ## Upgrade
 
 -[X] Add Folder deletion
--[] Add Folder creation
+-[X] Add Folder creation -> !!! Update UI it's shit right now / switch to button press into new row appearing and change name on the row ?
 -[] Add access control
 -[] Add small popup on upload
 -[] Gray row while it's getting deleted (useTransition)

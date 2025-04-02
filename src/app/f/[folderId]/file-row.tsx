@@ -46,10 +46,11 @@ export function FolderRow (props: {folder: DB_FolderType}) {
                 {folder.name}
               </Link>
           </div>
-          <div className="col-span-2 text-gray-400">{"folder"}</div>
-          <div className="col-span-3 text-gray-400">
+          <div className="col-span-2 text-gray-400">{"Folder"}</div>
+          <div className="col-span-3 text-gray-400"></div>
+          <div className="col-span-1 text-gray-400">
           <Button variant="ghost" onClick={() => deleteFolder(folder.id)}>
-              <Trash2Icon className="mr-3" size={20} aria-label="delete"></Trash2Icon>
+              <Trash2Icon  size={20} aria-label="delete"></Trash2Icon>
             </Button>
           </div>
         </div>

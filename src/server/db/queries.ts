@@ -31,7 +31,7 @@ getAllParents: async function ( folderId: number){
     }
     return parents;
 },
-getRootFolderForUser : async function (userId: string) {
+getRootFolderForUser : async function (userId: string ) {
     const folder = await db.select()
         .from(folders_table)
         .where(
@@ -41,6 +41,16 @@ getRootFolderForUser : async function (userId: string) {
             )
         );
     return folder[0];
+},
+getOwnership : async function (userId: string | null) {
+    if(userId === null) {
+        return false
+    }
+    const ownedItems = await db.select().from(folders_table).where(eq(folders_table.ownerId,userId))
+    if(ownedItems){
+        return true
+    }
+    return false
 }
 }
 

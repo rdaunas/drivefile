@@ -10,6 +10,7 @@ import { UploadButton } from "../../../components/uploadthing"
 import { useRouter } from "next/navigation"
 import { createFolder } from "~/server/actions"
 import { useState } from "react"
+import { auth } from "@clerk/nextjs/server"
 
 export default function DriveContent(props : {
   files: (typeof files_table.$inferSelect)[];
@@ -21,7 +22,7 @@ export default function DriveContent(props : {
   const[newFolderName, setNewFolderName] = useState("");
   const navigate = useRouter();
 
-
+  
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 p-8">
       <div className="max-w-6xl mx-auto">
@@ -55,7 +56,14 @@ export default function DriveContent(props : {
             </SignedIn>
           </div>
         </div>
-        <div className="bg-gray-800 rounded-lg shadow-xl">
+        <div className="flex items-center justify-end">
+        <input type="text" name="newFolderName" id="newFolderName" onChange={(e)=>{e.preventDefault();setNewFolderName(e.target.value);}}
+        className="bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" placeholder="New folder"/>
+        <Button onClick={()=>createFolder(props.currentFolderId, newFolderName)} className="bg-transparent p-0 ml-3 w-auto">
+          <Plus size={40} aria-label="create new folder"/>
+        </Button>
+        </div> 
+        <div className="bg-gray-800 rounded-lg shadow-xl m-4">
           <div className="px-6 py-4 border-b border-gray-700">
             <div className="grid grid-cols-12 gap-4 text-sm font-medium text-gray-400">
               <div className="col-span-6">Name</div>
@@ -74,10 +82,8 @@ export default function DriveContent(props : {
           </ul>
         </div>
         <UploadButton endpoint="driveUploader" onClientUploadComplete={() => {navigate.refresh()}} input={{folderId: props.currentFolderId}} />
-        <input type="text" name="newFolderName" id="newFolderName" onChange={(e)=>{e.preventDefault();setNewFolderName(e.target.value);} }/>
-        <Button onClick={()=>createFolder(props.currentFolderId, newFolderName)}>
-          <Plus />
-        </Button>
+        
+        
       </div>
     </div>
   )
