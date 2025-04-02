@@ -1,10 +1,11 @@
 # Drivefile
 
+Small google drive kind of clone w/ file upload and deletion - folder creation and deletion - auth w/ clerk
+
+host w/ netlify @ https://rddrivefile.netlify.app/
+
 ## Upgrade
 
--[X] Add Folder deletion
--[X] Add Folder creation -> !!! Update UI it's shit right now / switch to button press into new row appearing and change name on the row ?
--[] Add access control
 -[] Add small popup on upload
 -[] Gray row while it's getting deleted (useTransition)
 
