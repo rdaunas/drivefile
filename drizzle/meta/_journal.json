@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "singlestore",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "1",
+      "when": 1741616716638,
+      "tag": "0000_elite_the_captain",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "1",
+      "when": 1741709609432,
+      "tag": "0001_warm_valeria_richards",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "1",
+      "when": 1741709712678,
+      "tag": "0002_salty_starhawk",
+      "breakpoints": true
+    }
+  ]
+}
